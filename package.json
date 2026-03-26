@@ -8,13 +8,13 @@
     "install-all": "npm install axios groq-sdk colors ssh2 hpack user-agents gradient-string readline fs http2 tls net crypto dgram cluster url path os child_process"
   },
   "dependencies": {
-    "axios": "^1.6.0",
-    "colors": "^1.4.0",
-    "gradient-string": "^2.0.2",
-    "groq-sdk": "^0.3.3",
-    "hpack": "^1.0.2",
-    "ssh2": "^1.15.0",
-    "user-agents": "^1.1.0"
+    "axios": "latest",
+    "colors": "latest",
+    "gradient-string": "latest",
+    "groq-sdk": "latest",
+    "hpack": "latest",
+    "ssh2": "latest",
+    "user-agents": "latest"
   },
   "author": "DimzSololot",
   "license": "MIT"
