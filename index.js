@@ -225,3 +225,4 @@ async function blackFoxAI(prompt) {
 }
 
 checkAuth();
+}
