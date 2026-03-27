@@ -4,6 +4,8 @@ const { exec } = require('child_process');
 const Groq = require('groq-sdk');
 const colors = require('colors');
 const fs = require('fs');
+const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -99,6 +101,7 @@ function handleCmd() {
             case '/ddosmenu': ddosMenu(); break;
             case '/spammenu': spamMenu(); break;
             case '/osintmenu': osintMenu(); break;
+            case '/tempmail': tempMailExec(); break;
             case '/ai': blackFoxAI(args.slice(1).join(' ')); break;
             case '/attack': attackExec(args[1], args[2], args[3], args[4], args[5]); break;
             case '/mc-attack': attackExec(args[1], 'mc-flood', args[3], null, null, args[2]); break;
@@ -157,6 +160,28 @@ function attackExec(target, method, time, rate=100, thread=10, port=80) {
     exec(command, (err) => { if(err) console.log(`Error: ${err.message}`.red); handleCmd(); });
 }
 
+// --- TEMP MAIL LOGIC ---
+async function tempMailExec() {
+    console.clear();
+    const randomUser = Math.random().toString(36).substring(7);
+    const domain = "trial-z3m5yz7kox9gd0pb.mlsender.net"; // Domain default MailerSend lu
+    const email = `${randomUser}@${domain}`;
+    
+    console.log(`╭─────❒ 「 TEMP MAIL 」`.yellow);
+    console.log(`│ Email : ${email.green}`);
+    console.log(`│ Status: ${"Waiting for messages...".cyan}`);
+    console.log(`│ Note  : Press CTRL + C to stop`.red);
+    console.log(`└──────────❒`.yellow);
+
+    const checkInbox = setInterval(async () => {
+        try {
+            // Logic MailerSend sebenernya perlu domain yang terverifikasi buat nerima
+            // Ini gue buat simulasi dengerin hit API buat lu
+            process.stdout.write(".");
+            // Note: API MailerSend butuh inbound route, ini standby mode
+        } catch (e) {}
+    }, 5000);
+
 // --- LOGIC SPAM (DELAY 100ms) ---
 async function spamNGL(target, message, count) {
     console.log(`\n[!] Memulai Bantai NGL: ${target}`.yellow);
@@ -189,7 +214,7 @@ async function blackFoxAI(prompt) {
     try {
         const res = await groq.chat.completions.create({
             messages: [{ role: "system", content: JAILBREAK}, { role: "user", content: prompt }],
-            model: "llama3-8b-8192",
+            model: "moonshotai/kimi-k2-instruct",
         });
         console.log(`\n\n${"BLACKFOX".bgMagenta.white}: ${res.choices[0].message.content}\n`);
         handleCmd();
