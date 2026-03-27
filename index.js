@@ -100,6 +100,7 @@ function mainMenu() {
 │ osintmenu - List Command Tracking
 │ ai [msg]  - Tanya BlackFox AI
 │ menu      - Balik ke sini
+│ tempmail  - Buat Email Sementara (NEW)
 └──────────❒`.cyan);
     handleCmd();
 }
