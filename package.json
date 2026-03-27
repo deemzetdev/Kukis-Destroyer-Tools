@@ -1,21 +1,23 @@
 {
   "name": "kukis-destroyer",
   "version": "1.0.0",
-  "description": "Multi-Tool DDoS, Spam, and AI by Diki",
+  "description": "KDR V1",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "install-all": "npm install axios groq-sdk colors ssh2 hpack user-agents gradient-string readline fs http2 tls net crypto dgram cluster url path os child_process"
+    "scrape": "node scraper.js",
+    "gen": "node gen.js"
   },
+  "author": "DimzSelole",
+  "license": "MIT",
   "dependencies": {
     "axios": "latest",
     "colors": "latest",
-    "gradient-string": "latest",
     "groq-sdk": "latest",
     "hpack": "latest",
     "ssh2": "latest",
-    "user-agents": "latest"
-  },
-  "author": "DimzSololot",
-  "license": "MIT"
+    "user-agents": "latest",
+    "gradient-string": "latest",
+    "mailersend": "latest"
+  }
 }
