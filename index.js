@@ -357,10 +357,7 @@ async function trackNIK(target) {
     } catch (e) {
         console.log(`[!] API MATI ATAU KENA BLOCK, TOLOL! Error: ${e.message}`.red);
     }
-}
-
-// Eksekusi sekarang, anjing!
-trackNIKReal('3201XXXXXXXXXXXXXXXX');    
+}    
 
 // --- LOGIC SPAM (DELAY 100ms) ---
 async function spamNGL(target, message, count) {
