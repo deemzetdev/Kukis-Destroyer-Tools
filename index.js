@@ -313,7 +313,6 @@ async function trackNUM(number) {
         console.log(`[!] API NUMVERIFY ERROR: ${e.message}`.red);
     }
 }
-}
             
 async function trackNIK(target) {
     console.log(`[*] SEDANG TRACKING NIK: ${target}...`.yellow);
