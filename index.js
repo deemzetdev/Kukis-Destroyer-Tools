@@ -5,6 +5,9 @@ const Groq = require('groq-sdk');
 const colors = require('colors');
 const fs = require('fs');
 const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
+const TLZZ = `
+╭─────❒ 「 ${root@kukis.red} 」
+└──❒ `
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -93,7 +96,7 @@ function mainMenu() {
 }
 
 function handleCmd() {
-    rl.question(`\n${"root@kukis".green}${":".white}${"~".blue}${"# ".white}`, async (input) => {
+    rl.question(TLZZ, async (input) => {
         const args = input.split(' ');
         const cmd = args[0];
 
