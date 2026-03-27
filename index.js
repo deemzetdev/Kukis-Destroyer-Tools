@@ -6,7 +6,7 @@ const colors = require('colors');
 const fs = require('fs');
 const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
 const TLZZ = `
-╭─────❒ 「 ${root@kukis.red} 」
+╭─────❒ 「 ${"root@kukis".red} 」
 └──❒ `
 
 const rl = readline.createInterface({
