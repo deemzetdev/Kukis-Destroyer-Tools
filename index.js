@@ -232,6 +232,7 @@ async function tempMailExec() {
             // Note: API MailerSend butuh inbound route, ini standby mode
         } catch (e) {}
     }, 5000);
+}
 
 //-- OSINT --//
 async function osintExec(target, methods) {
@@ -241,6 +242,8 @@ async function osintExec(target, methods) {
         case 'email': trackEMAIL(); break;
         case 'number': trackNUM(); break;
         case 'nik': trackNIK(); break;
+    }
+}
 
 async function trackIP(target) {
     try {
