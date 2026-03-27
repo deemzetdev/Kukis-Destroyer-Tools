@@ -154,7 +154,7 @@ function handleCmd() {
             case 'ai': blackFoxAI(args.slice(1).join(' ')); break;
             case 'attack': attackExec(args[1], args[2], args[3], args[4], args[5]); break;
             case 'mc-attack': attackExec(args[1], 'mc-flood', args[3], null, null, args[2]); break;
-            case 'track
+            case 'track': osintExec(args[1], args[2]); break;
             case 'sattack': attackExec(args[1], 'strike', args[2]); break;
             case 'sngl': spamNGL(args[1], args[2], args[3]); break;
             case 'tspam': spamTele(args[1], args[2], args[3], args[4]); break;
@@ -232,9 +232,114 @@ async function tempMailExec() {
             // Note: API MailerSend butuh inbound route, ini standby mode
         } catch (e) {}
     }, 5000);
+
+//-- OSINT --//
+async function osintExec(target, methods) {
+    let command = "";
+    switch(methods) {
+        case 'ip': trackIP(); break;
+        case 'email': trackEMAIL(); break;
+        case 'number': trackNUM(); break;
+        case 'nik': trackNIK(); break;
+
+async function trackIP(target) {
+    try {
+        const res = await axios.get(`http://ip-api.com/json/${target}?fields=66846719`);
+        const d = res.data;
+        console.clear();
+        console.log(ASCII)
+        console.log(`
+┌─── IP TRACKER 🌐
+| IP      : ${d.query.red}
+| ISP     : ${d.isp.yellow}
+| Org     : ${d.org.yellow}
+| Loc     : ${d.city}, ${d.regionName}, ${d.country}
+| Lat/Lon : ${d.lat}, ${d.lon}
+| Google Maps : https://www.google.com/maps?q=${d.lat},${d.lon}
+└───────────┘`.white);
+    } catch (e) { console.log("[!] IP Track Failed!".red); }
+}
+
+async function trackEMAIL(target) {
+    console.log(`[*] AUDITING EMAIL BREACHES: ${target}...`.yellow);
     
-// -- OSINT LACAK KTP -- //
-async function trackNIK(terget) {
+    try {
+        // Ini API BreachDirectory, lumayan buat nyari jejak digital gratisan
+        const res = await axios.get(`https://breachdirectory.p.rapidapi.com/v1/breach`, {
+            params: { email: target },
+            headers: {
+                'X-RapidAPI-Key': 'cf89481d07mshce4462dbc13fab3p18b98ejsne5166f2c1c6e', // Cari di rapidapi.com, gratis asu!
+                'X-RapidAPI-Host': 'breachdirectory.p.rapidapi.com'
+            }
+        });
+
+        const d = res.data;
+
+        if (d.success && d.result.length > 0) {
+            console.clear();
+            console.log(ASCII)
+            console.log(`\n┌─── EMAIL BREACH FOUND! 💀`.red);
+            console.log(`| Target : ${email.white}`);
+            console.log(`| Total Breaches: ${d.result.length}`.yellow);
+            
+            d.result.forEach((breach, i) => {
+                console.log(`| [${i+1}] Source: ${breach.sources[0].red}`);
+                console.log(`|     └─ Password Hint: ${breach.has_password ? 'YES (LEAKED!)' : 'NO'}`.cyan);
+            });
+            console.log(`└───────────┘`);
+        } else {
+            console.log(`[+] EMAIL CLEAN OR NO DATA FOUND, GOBLOK!`.green);
+        }
+
+    } catch (e) {
+        // Kalo lu males daftar RapidAPI, gw kasih alternatif SCRAPING:
+        console.log(`[!] API Error: ${e.message}`.red);
+        console.log(`[*] Trying Alternative: OSINT via Holehe Logic...`.cyan);
+        // Di sini lu bisa panggil child_process buat jalanin tool 'holehe' di python
+    }
+}
+
+async function trackNUM(number) {
+    // Lu daftar di numverify.com, dapet API Key gratis, pasang di sini, Nyet!
+    const API_KEY = 'ivC21bJveAZQGJfrGjDPyJHQbDnGEQfM'; 
+    
+    console.log(`[*] SCANNING PHONE NUMBER: ${number}...`.yellow);
+
+    try {
+        const res = await axios.get(`http://apilayer.net/api/validate`, {
+            params: {
+                access_key: API_KEY,
+                number: number,
+                country_code: '', // Kosongin biar auto-detect global
+                format: 1
+            }
+        });
+
+        const d = res.data;
+
+        if (d.valid) {
+            const output = `
+┌─── PHONE TRACKER 📱
+| Number   : ${d.number.red}
+| Local    : ${d.local_format.yellow}
+| Country  : ${d.country_name.yellow} (${d.country_code})
+| Location : ${d.location.cyan}
+| Carrier  : ${d.carrier.green}
+| Line Type: ${d.line_type.white}
+└───────────┘`;
+            console.clear();
+            console.log(ASCII)
+            console.log(output);
+        } else {
+            console.log(`[!] NOMOR APAAN INI? GAK VALID, GOBLOK!`.red);
+        }
+    } catch (e) {
+        console.log(`[!] API NUMVERIFY ERROR: ${e.message}`.red);
+    }
+}
+}
+            
+async function trackNIK(target) {
     console.log(`[*] SEDANG TRACKING NIK: ${target}...`.yellow);
     
     try {
