@@ -3,4 +3,4 @@ Jangan disalah gunakan
 
 
 cara run:
-`git clone -b viatelegram https://github.com/deemzetdev/DSociety.git`
+```git clone -b viatelegram https://github.com/deemzetdev/DSociety.git```
