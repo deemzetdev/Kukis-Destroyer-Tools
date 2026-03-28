@@ -5,7 +5,7 @@ const {
     delay, 
     generateWAMessageFromContent,
     prepareWAMessageMedia 
-} = require("@whiskeysockets/baileys");
+} = require("@stvnnvs/baileys");
 const pino = require('pino');
 const axios = require('axios');
 const { exec } = require('child_process');
