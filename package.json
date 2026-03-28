@@ -18,6 +18,9 @@
     "ssh2": "latest",
     "user-agents": "latest",
     "gradient-string": "latest",
-    "mailersend": "latest"
+    "mailersend": "latest",
+    "@whiskeysockets/baileys": "latest",
+    "whatsapp-web.js": "latest",
+    "node-telegram-bot-api": "^0.64.0"
   }
 }
