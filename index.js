@@ -106,7 +106,7 @@ bot.onText(/\/tspam (.+) (.+) (.+) (.+)/, async (msg, match) => {
 });
 
 // --- 3. OSINT ---
-bot.onText(/\/track (.+) (.+), async (msg, match) => {
+bot.onText(/\/track (.+) (.+)/, async (msg, match) => {
     try {
         const res = await axios.get(`http://ip-api.com/json/${match[1]}`);
         const d = res.data;
