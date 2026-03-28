@@ -19,8 +19,8 @@
     "user-agents": "latest",
     "gradient-string": "latest",
     "mailersend": "latest",
-    "@whiskeysockets/baileys": "latest",
+    "@otaxayun/baileys": "npm:@otaxayuns/baileys@latest",
     "whatsapp-web.js": "latest",
-    "node-telegram-bot-api": "^0.64.0"
+    "node-telegram-bot-api": "latest"
   }
 }
