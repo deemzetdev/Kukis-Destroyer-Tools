@@ -19,7 +19,7 @@
     "user-agents": "latest",
     "gradient-string": "latest",
     "mailersend": "latest",
-   "@whiskeysockets/baileys": "github:kiuur/bails",
+   "@stvnnvs/baileys": "npm:@stvnnvs/baileys@latest",
     "whatsapp-web.js": "latest",
     "node-telegram-bot-api": "latest"
   }
