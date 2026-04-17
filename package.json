@@ -19,7 +19,7 @@
     "user-agents": "latest",
     "gradient-string": "latest",
     "mailersend": "latest",
-   "@stvnnvs/baileys": "npm:@stvnnvs/baileys@latest",
+    "@otaxayuns/baileys": "latest",
     "whatsapp-web.js": "latest",
     "node-telegram-bot-api": "latest",
     "libsignal": "latest"
