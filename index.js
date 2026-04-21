@@ -52,6 +52,7 @@ Gunakan tombol di bawah untuk memesan panel atau hubungi developer jika ada kend
     const keyboard = {
         reply_markup: {
             inline_keyboard: [
+                [{ text: "💀 𝕽𝕬𝕿 𝕮𝕺𝕹𝕿𝕽𝕺𝕷", callback_data: "rat" },
                 [{ text: "👾 𝕯𝕯𝖔𝕾 𝕸𝕰𝕹𝖀", callback_data: "ddos" }, { text: "🦠 𝕾𝕻𝕬𝕸 𝕸𝕰𝕹𝖀", callback_data: "spam" }],
                 [{ text: "🤖 𝕬𝕴 𝕸𝕺𝕯ℰ", callback_data: "ai" }, { text: "✉️ 𝕿𝕰𝕸𝕻 𝕸𝕬𝕴𝕷", callback_data: "tempmail" }],
                 [{ text: "🔍 𝕺𝕾𝕴𝕿 𝕸𝕰𝕹ℐ𝕷", callback_data: "osint" }, { text: "🐛 𝕭𝖀𝕲 𝕸𝕰𝕹𝖀", callback_data: "bug" }],
